@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Warhammer 40K Crusade Campaign Map - Track planetary conquests across the galaxy">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>INDEX</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="assets/manifest.json">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <h1 class="loading-title">The INDEX</h1>
+            <div class="loading-bar"><div class="loading-progress"></div></div>
+            <p class="loading-text">Initializing Galaxy…</p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="app-container" style="display:none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button id="menuBtn" class="icon-btn" title="Menu"><span class="menu-icon">☰</span></button>
+                <h1 class="app-title"><span class="aquila-icon">⧉</span>The INDEX</h1>
+            </div>
+            <div class="header-center">
+                <div id="turnCounter" class="turn-counter">
+                    <span class="turn-label">TURN</span>
+                    <span id="currentTurn" class="turn-number">1</span>
+                </div>
+                <div class="faction-selector">
+                    <label for="factionDropdown" class="faction-label">FACTION:</label>
+                    <select id="factionDropdown" class="faction-dropdown">
+                        <option value="">Select Faction</option>
+                    </select>
+                </div>
+            </div>
+            <div class="header-right">
+                <button id="ordersBtn" class="icon-btn" title="Galactic Orders">Galactic Order</button>
+                <button id="reinforcementsBtn" class="icon-btn" title="Reinforcements">Reinforcements</button>
+                <button id="factionStatsBtn" class="icon-btn" title="Toggle Faction Standings">Factions Standings</button>
+                <button id="editFactionBtn" class="icon-btn" title="Edit Active Faction">Edit Faction</button>
+                <button id="compassBtn" class="icon-btn" title="Toggle Compass">Compass</button>
+                <button id="autoRotateBtn" class="mode-btn" title="Toggle Auto Rotation"><span class="mode-text">Rotation: AUTO</span></button>
+                <button id="gmModeBtn" class="mode-btn" title="Toggle GM Mode"><span class="mode-icon">👁</span><span class="mode-text">PLAYER</span></button>
+                <button id="feedbackBtn" class="feedback-btn" title="Send Feedback" onclick="window.open('https://XXX', '_blank')">
+                    <span class="feedback-icon">💬</span>
+                    <span class="feedback-text">FEEDBACK</span>
+                </button>
+                <button id="kofiBtn" class="kofi-btn" title="Support on Ko-Fi" onclick="window.open('https://ko-fi.com/antaresx101', '_blank')">
+                    <span class="kofi-icon">☕</span>
+                    <span class="kofi-text">SUPPORT</span>
+                </button>
+                <button id="pwaInstallBtn" class="pwa-install-btn" title="Install App" style="display:none;">
+                    <span class="pwa-install-icon">⬇</span>
+                    <span class="pwa-install-text">INSTALL</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="galaxyContainer" class="galaxy-container">
+                <canvas id="galaxyCanvas"></canvas>
+
+                <!-- HUD: Faction Standings -->
+                <div class="hud-overlay">
+                    <div id="statsPanel" class="stats-panel">
+                        <h3>FACTION STANDINGS</h3>
+                        <div id="factionStats" class="faction-stats"></div>
+                    </div>
+                    
+                    <!-- Compass Indicator -->
+                    <div id="compassIndicator" class="compass-indicator" style="display:none;">
+                        <div class="compass-north">N</div>
+                        <div class="compass-cross">
+                            <div class="compass-arrow"></div>
+                        </div>
+                        <div class="compass-labels">
+                            <span class="compass-east">E</span>
+                            <span class="compass-south">S</span>
+                            <span class="compass-west">W</span>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+            <!-- Side Panel (Planet Details) -->
+            <aside id="sidePanel" class="side-panel">
+                <div class="panel-header">
+                    <h2 id="panelTitle">PLANET DETAILS</h2>
+                    <button id="closePanelBtn" class="close-btn">×</button>
+                </div>
+                <div id="panelContent" class="panel-content">
+                    <p class="panel-empty">Select a planet to view details</p>
+                </div>
+            </aside>
+        </main>
+
+        <!-- GM Control Panel -->
+        <div id="gmPanel" class="gm-panel" style="display:none;">
+            <div class="gm-panel-header">
+                <h3>GAME MASTER CONTROLS</h3>
+                <button id="closeGmPanelBtn" class="close-btn">×</button>
+            </div>
+            <div class="gm-panel-content">
+                <div class="gm-section">
+                    <h4>Campaign Management</h4>
+                    <div class="order-controls">
+                        <button id="createOrderBtn" class="gm-btn">Create Order</button>
+                        <button id="editOrderBtn" class="gm-btn">Edit Order</button>
+                        <button id="deleteOrderBtn" class="gm-btn danger">Delete Order</button>
+                    </div>
+                    <button id="advanceTurnBtn" class="gm-btn">Advance Turn</button>
+                    <button id="rewindTurnBtn" class="gm-btn">Rewind Turn</button>
+                    <button id="manageFactionsBtn" class="gm-btn">Manage Factions</button>
+                </div>
+                <div class="gm-section">
+                    <h4>Events</h4>
+                    <button id="addEventBtn"  class="gm-btn">Add Event</button>
+                </div>
+                <div class="gm-section">
+                    <h4>Resources & Values</h4>
+                    <button id="autoDistBtn" class="gm-btn">Auto-Distribution</button>
+                    <button id="manageResourcesBtn" class="gm-btn">Manage Resource Types</button>
+                    <button id="managePlanetValuesBtn" class="gm-btn">Manage Planet Values</button>
+                </div>
+                <div class="gm-section">
+                    <h4>Fleets Editor</h4>
+                    <button id="addFleetBtn" class="gm-btn">Add Fleet</button>
+                    <button id="manageFleetsBtn" class="gm-btn">Manage Fleets</button>
+                </div>
+                <div class="gm-section">
+                    <h4>Planets Editor</h4>
+                    <button id="addPlanetBtn"    class="gm-btn">Add Planet</button>
+                    <button id="deletePlanetBtn" class="gm-btn danger" disabled>Delete Selected</button>
+                </div>
+                <div class="gm-section">
+                    <h4>Connections Editor</h4>
+                    <button id="editConnectionsBtn" class="gm-btn">Select two Planetes</button>
+                    <button id="addConnectionBtn" class="gm-btn">Add Connection ( List )</button>
+                    <button id="removeConnectionBtn" class="gm-btn danger">Remove Connection ( List )</button>
+                </div>
+                <div class="gm-section">
+                    <h4>Galaxy</h4>
+                    <button id="galaxyCenterBtn" class="gm-btn">Edit Galaxy Center</button>
+                    <button id="crusadeInfoBtn" class="gm-btn">Edit Crusade Info</button>
+                </div>
+                <div class="gm-section">
+                    <h4>Interface & Display</h4>
+                    <button id="customizeUITextBtn" class="gm-btn">Customize All Text</button>
+                    <button id="resetUITextBtn" class="gm-btn danger">Reset to Defaults</button>
+                    <button id="colorThemeBtn" class="gm-btn">🎨 Color Theme</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Surface Map Panel -->
+        <div id="surfacePanel" class="surface-panel" style="display:none;">
+            <div class="surface-panel-header">
+                <h3>SURFACE MAP</h3>
+                <button id="closeSurfacePanelBtn" class="close-btn">×</button>
+            </div>
+            <div id="surfacePanelContent" class="surface-panel-content">
+                <p class="panel-empty">Select a planet to view surface map</p>
+            </div>
+        </div>
+
+        <!-- Ship Movement Panel -->
+        <div id="shipPanel" class="ship-panel" style="display:none;">
+            <div class="ship-panel-header">
+                <h3>FLEET CONTROL</h3>
+                <button id="closeShipPanelBtn" class="close-btn">×</button>
+            </div>
+            <div id="shipPanelContent" class="ship-panel-content">
+                <p class="panel-empty">Select a fleet to move</p>
+            </div>
+        </div>
+
+        <!-- Edit Planet Panel -->
+        <div id="editPlanetPanel" class="edit-planet-panel" style="display:none;">
+            <div class="edit-planet-panel-header">
+                <h3>✏️ EDIT PLANET</h3>
+                <button id="closeEditPlanetPanelBtn" class="close-btn">×</button>
+            </div>
+            <div id="editPlanetPanelContent" class="edit-planet-panel-content">
+                <p class="panel-empty">Select a planet to edit</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Modal -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content menu-modal">
+            <div class="modal-header">
+                <h2>MENU</h2>
+                <button class="close-btn modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <button id="saveCampaignBtn"   class="menu-item-btn"><span class="menu-item-icon">💾</span> Save Campaign</button>
+                <button id="exportCampaignBtn" class="menu-item-btn"><span class="menu-item-icon">▲</span> Export Campaign</button>
+                <button id="importCampaignBtn" class="menu-item-btn"><span class="menu-item-icon">▼</span> Import Campaign</button>
+                <button id="newCampaignBtn"    class="menu-item-btn"><span class="menu-item-icon">⊕</span> New Campaign</button>
+                <button id="menuColorThemeBtn" class="menu-item-btn"><span class="menu-item-icon">🎨</span> Color Theme</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic Modal -->
+    <div id="genericModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="genericModalTitle">Modal</h2>
+                <button class="close-btn modal-close">×</button>
+            </div>
+            <div id="genericModalBody" class="modal-body"></div>
+            <div id="genericModalFooter" class="modal-footer"></div>
+        </div>
+    </div>
+
+    <!-- Toasts -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Hidden file input -->
+    <input type="file" id="fileInput" accept=".json" style="display:none;">
+
+    <!-- Scripts -->
+    <!-- ES6 modules - app.js is entry point and imports dependencies -->
+    <script type="module" src="js/app.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('assets/service-worker.js')
+                    .then(() => console.log('SW registered'))
+                    .catch(e => console.error('SW failed:', e));
+            });
+        }
+
+        (function() {
+            const checkAndResizeRenderer = () => {
+                const app = document.getElementById('app');
+                if (app && app.style.display !== 'none' && window.app && window.app.renderer) {
+                    if (typeof window.app.renderer.forceResize === 'function') {
+                        window.app.renderer.forceResize();
+                    }
+                }
+            };
+
+            // Watch for app visibility changes
+            const observer = new MutationObserver(() => {
+                checkAndResizeRenderer();
+            });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const app = document.getElementById('app');
+                if (app) {
+                    observer.observe(app, {
+                        attributes: true,
+                        attributeFilter: ['style']
+                    });
+                }
+            });
+
+            // Try when window loads
+            window.addEventListener('load', () => {
+                setTimeout(checkAndResizeRenderer, 50);
+                setTimeout(checkAndResizeRenderer, 200);
+            });
+        })();
+    </script>
+</body>
+</html>
