@@ -66,7 +66,7 @@ class CrusadeApp {
             this.updateLoadingText('Updating planet values…');
             this.ensureAllPlanetsHaveCurrentValues();
 
-            this.updateLoadingText('Rendering galaxy…');
+            this.updateLoadingText('Rendering Planets…');
             this.renderGalaxy();
 
             this.setupAutoSave();
@@ -83,7 +83,7 @@ class CrusadeApp {
 
         } catch (err) {
             console.error('Failed to initialize app:', err);
-            this.updateLoadingText('Error initializing. Please refresh.');
+            this.updateLoadingText('Error initializing. Please report to the developer.');
         }
     }
 

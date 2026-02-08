@@ -237,6 +237,7 @@ export const CONFIG = {
     MIN_PLANETS: 10,
     DEFAULT_GALAXY_SIZE: 20,
     CAMERA_ROTATION_SPEED: 0.0005,
+    CAMERA_TRANSITION_SPEED: 0.08, // Smooth camera transition speed (0.01 = very slow, 0.2 = fast)
     ZOOM_SPEED: 0.1,
     MIN_ZOOM: 30,
     MAX_ZOOM: 300,
@@ -453,33 +454,5 @@ export const DEFAULT_PLANET_VALUES = [
         type: 'text',
         defaultValue: '',
         order: 3
-    },
-    {
-        id: 'resources',
-        name: 'Resources',
-        type: 'text',
-        defaultValue: '',
-        order: 4
-    },
-    {
-        id: 'connections',
-        name: 'Connections',
-        type: 'text',
-        defaultValue: '',
-        order: 5
-    },
-    {
-        id: 'keywords',
-        name: 'Keywords',
-        type: 'keywords',
-        defaultValue: '',
-        order: 6
-    },
-    {
-        id: 'link',
-        name: 'Link',
-        type: 'link',
-        defaultValue: '',
-        order: 7
     }
 ];

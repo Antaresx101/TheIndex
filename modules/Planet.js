@@ -29,6 +29,7 @@ export class Planet {
     this._battleStatus = data.battleStatus || BATTLE_STATUS.NONE;
     this._connections = data.connections || [];
     this._history = data.history || [];
+    this._dynamicValues = data.dynamicValues || {};
     
     // DESTROYED planets have no resources or surface zones
     if (data.type === 'DESTROYED') {
@@ -54,6 +55,7 @@ export class Planet {
   get resources() { return { ...this._resources }; }
   set resources(value) { this._resources = { ...value }; }
   get surfaceZones() { return [...this._surfaceZones]; }
+  get dynamicValues() { return { ...this._dynamicValues }; }
 
   // Setters with validation
   set name(value) { this._name = value; }
@@ -63,8 +65,8 @@ export class Planet {
     }
   }
   set owner(value) { this._owner = value; }
-  set value_one(value) { this._value_one = Math.max(0, value); }
-  set value_two(value) { this._value_two = Math.max(0, value); }
+  set value_one(value) { this._value_one = value; }
+  set value_two(value) { this._value_two = value; }
   set battleStatus(value) { 
     if (Object.values(BATTLE_STATUS).includes(value)) {
       this._battleStatus = value; 
@@ -252,7 +254,26 @@ export class Planet {
       case 'value_two':
         return this._value_two;
       default:
-        return undefined;
+        return this._dynamicValues[valueId];
+    }
+  }
+
+  /**
+   * Set a planet value by ID
+   * @param {string} valueId - Value ID to set
+   * @param {*} value - New value
+   */
+  setValue(valueId, value) {
+    switch (valueId) {
+      case 'value_one':
+        this._value_one = value;
+        break;
+      case 'value_two':
+        this._value_two = value;
+        break;
+      default:
+        this._dynamicValues[valueId] = value;
+        break;
     }
   }
 
@@ -274,6 +295,7 @@ export class Planet {
       battleStatus: this._battleStatus,
       connections: this._connections,
       history: this._history,
+      dynamicValues: this._dynamicValues,
     };
   }
 

@@ -51,6 +51,11 @@ export class GalaxyRenderer {
         this.dragMode        = null;
         this.autoRotate      = true;
 
+        // Camera animation for smooth transitions
+        this.cameraTarget    = { x: 0, y: 0, z: 0 };
+        this.currentCameraCenter = { x: 0, y: 0, z: 0 };
+        this.cameraTransitionSpeed = CONFIG.CAMERA_TRANSITION_SPEED; // Smooth transition speed
+
         this.init();
         this.setupEventListeners();
         // Ensure proper initial sizing
@@ -122,6 +127,9 @@ export class GalaxyRenderer {
             1, 1000
         );
         this.updateCameraPosition();
+        
+        // Initialize camera center position
+        this.currentCameraCenter = { x: 0, y: 0, z: 0 };
 
         this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: false });
         this.renderer.setSize(this.canvas.parentElement.clientWidth, this.canvas.parentElement.clientHeight);
@@ -832,19 +840,25 @@ export class GalaxyRenderer {
     // ── Camera ───────────────────────────────────────────────────────────
 
     updateCameraPosition() {
-        let center = { x: 0, y: 0, z: 0 };
+        let targetCenter = { x: 0, y: 0, z: 0 };
         if (this.selectedPlanet) {
             const m = this.planetMeshes.get(this.selectedPlanet);
-            if (m) center = { x: m.position.x, y: m.position.y, z: m.position.z };
+            if (m) targetCenter = { x: m.position.x, y: m.position.y, z: m.position.z };
         } else if (this.selectedGalaxyCenter) {
             // Galaxy center
-            center = { x: 0, y: 0, z: 0 };
+            targetCenter = { x: 0, y: 0, z: 0 };
         }
+
+        // Smooth interpolation to target center
+        this.currentCameraCenter.x += (targetCenter.x - this.currentCameraCenter.x) * this.cameraTransitionSpeed;
+        this.currentCameraCenter.y += (targetCenter.y - this.currentCameraCenter.y) * this.cameraTransitionSpeed;
+        this.currentCameraCenter.z += (targetCenter.z - this.currentCameraCenter.z) * this.cameraTransitionSpeed;
+
         const x = this.cameraDistance * Math.sin(this.cameraRotation.y) * Math.cos(this.cameraRotation.x);
         const y = this.cameraDistance * Math.sin(this.cameraRotation.x);
         const z = this.cameraDistance * Math.cos(this.cameraRotation.y) * Math.cos(this.cameraRotation.x);
-        this.camera.position.set(x + center.x + this.cameraPosition.x, y + center.y + this.cameraPosition.y, z + center.z + this.cameraPosition.x * 0.5);
-        this.camera.lookAt(center.x, center.y, center.z);
+        this.camera.position.set(x + this.currentCameraCenter.x + this.cameraPosition.x, y + this.currentCameraCenter.y + this.cameraPosition.y, z + this.currentCameraCenter.z + this.cameraPosition.x * 0.5);
+        this.camera.lookAt(this.currentCameraCenter.x, this.currentCameraCenter.y, this.currentCameraCenter.z);
     }
 
     // ── Input ────────────────────────────────────────────────────────────

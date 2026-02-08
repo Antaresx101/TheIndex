@@ -619,7 +619,7 @@ kbd { background:var(--color-button-background); border:1px solid var(--color-se
 .surface-panel-header .close-btn:hover { color:var(--color-main-background); }
 .surface-panel-content { padding:var(--space-md); overflow-y:scroll; overflow-x:hidden; flex:1; min-height:0; }
 
-.surface-detail { display:flex; flex-direction:column; gap:var(--space-md); }
+.surface-detail { display:flex; flex-direction:column; }
 .surface-header { text-align:center; margin-bottom:var(--space-md); }
 .surface-name { font-family:var(--font-display); font-size:1.2rem; color:var(--color-primary-accent); margin:0; }
 .surface-map { background:var(--color-secondary-background); border:1px solid var(--color-button-background); border-radius:4px; padding:var(--space-md); }
@@ -1034,7 +1034,13 @@ select option {
 .ship-panel-header h3 { font-family:var(--font-display); font-size:1rem; letter-spacing:.1rem; }
 .ship-panel-header .close-btn { color:var(--color-main-background); }
 .ship-panel-header .close-btn:hover { color:var(--color-main-background); }
-.ship-panel-content { padding:var(--space-md); overflow-y:auto; flex:1; min-height:0; }
+.ship-panel-content { 
+    padding:var(--space-md); 
+    overflow-y:auto; 
+    flex:1; 
+    min-height:0; 
+    max-height: calc(100% - 60px); /* Account for header height */
+}
 
 /* Compact slider items for ship panel */
 .ship-panel-content .info-item {
@@ -1058,18 +1064,75 @@ select option {
     color: var(--color-primary-accent);
 }
 
+/* Collapsible sections */
+.collapsible-section {
+    margin-top: 15px;
+    margin-bottom: var(--space-sm);
+    border: 1px solid var(--color-secondary-accent);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.collapsible-header {
+    background: var(--color-secondary-accent);
+    color: var(--color-main-background);
+    padding: var(--space-sm) var(--space-md);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.collapsible-header:hover {
+    background: var(--color-primary-accent);
+}
+
+.collapsible-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.collapsible-icon {
+    transition: transform 0.2s ease;
+    font-size: 0.8rem;
+}
+
+.collapsible-icon.collapsed {
+    transform: rotate(-90deg);
+}
+
+.collapsible-content {
+    background: var(--color-secondary-background);
+    border-top: 1px solid var(--color-secondary-accent);
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    max-height: 300px;
+    opacity: 1;
+    overflow: hidden;
+}
+
+.collapsible-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+}
+
+.collapsible-content .info-item {
+    border: none;
+    margin: 0;
+    padding: var(--space-xs) var(--space-md);
+}
+
 /* ── Edit Planet panel ───────────────────────────────────────────────────── */
 .edit-planet-panel {
-    background:var(--color-panel-background); border:2px solid var(--color-secondary-accent); border-radius:6px;
-    box-shadow:var(--shadow-deep), var(--glow-gold);
-    display:flex; flex-direction:column; overflow:hidden; min-height:0;
-    max-height:90vh; z-index:150;
+    background:var(--color-secondary-background); border:1px solid var(--color-secondary-accent); border-radius:4px;
+    display:flex; flex-direction:column; box-shadow:0 5px 20px var(--color-shadow-accent); pointer-events:auto; overflow:hidden;
+    z-index:150;
 }
 .edit-planet-panel-header {
-    background:linear-gradient(135deg, var(--color-secondary-accent), var(--color-secondary-accent-bright));
-    color:var(--color-main-background); padding:.65rem var(--space-md);
-    display:flex; align-items:center; justify-content:space-between;
-    border-bottom:2px solid var(--color-secondary-accent);
+    background:var(--color-secondary-accent); color:var(--color-main-background); padding:var(--space-md); display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--color-secondary-accent);
 }
 .edit-planet-panel-header h3 { font-family:var(--font-display); font-size:.95rem; letter-spacing:.1rem; margin:0; }
 .edit-planet-panel-header .close-btn { color:var(--color-main-background); }

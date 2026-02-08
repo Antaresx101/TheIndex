@@ -88,12 +88,12 @@ export class UIManager {
         this.resourceBarEl   = document.getElementById('resourceBar');
 
         this.panelStates = {
-            sidePanel:    { visible: false, position: { x: 20, y: 80 },                            size: { width: 400, height: 1200 } },
+            sidePanel:    { visible: false, position: { x: 10, y: 70 },                            size: { width: 400, height: 1200 } },
             gmPanel:      { visible: false, position: { x: window.innerWidth - 320, y: 80 },       size: { width: 300, height: 1200 } },
-            statsPanel:   { visible: true,  position: { x: window.innerWidth - 420, y: 80 },      size: { width: 400, height: 860 } },
-            surfacePanel: { visible: false, position: { x: 440, y: 80 },                           size: { width: 450, height: 525 } },
-            shipPanel:    { visible: false, position: { x: 440, y: 80 },                           size: { width: 450, height: 525 } },
-            editPlanetPanel: { visible: false, position: { x: 350, y: 120 },                     size: { width: 450, height: 1000 } }
+            statsPanel:   { visible: true,  position: { x: window.innerWidth - 310, y: 70 },      size: { width: 300, height: 1200 } },
+            surfacePanel: { visible: false, position: { x: 430, y: 70 },                           size: { width: 450, height: 525 } },
+            shipPanel:    { visible: false, position: { x: 430, y: 600 },                           size: { width: 450, height: 300 } },
+            editPlanetPanel: { visible: false, position: { x: 340, y: 110 },                     size: { width: 450, height: 1000 } }
         };
 
         this.loadPanelStates();
@@ -1013,7 +1013,7 @@ export class UIManager {
 
         this.surfacePanelContent.innerHTML = `
             <div class="surface-detail">
-                <div class="surface-header"><h2 class="surface-name">${planet.name} – SURFACE MAP</h2></div>
+                <div class="surface-header"><h2 class="surface-name">${planet.name}</h2></div>
                 <div class="surface-map">
                     <div class="surface-grid">
                         ${planet.surfaceZones.map(z => {
@@ -1268,39 +1268,47 @@ export class UIManager {
                     </button>
                 </div>
             </div>
-            <div class="info-item">
-                <div class="info-label">Ship Shape</div>
-                <div class="info-value">
-                    <select id="shipShapeSelect" class="form-select" onchange="window.app.ui.changeShipShape('${ship.id}', this.value)">
-                        <option value="tetrahedron">🔺 Tetrahedron</option>
-                        <option value="cube">⬜ Cube</option>
-                        <option value="octahedron">⬡ Octahedron</option>
-                        <option value="dodecahedron">⬢ Dodecahedron</option>
-                        <option value="icosahedron">💎 Icosahedron</option>
-                        <option value="sphere">⚪ Sphere</option>
-                        <option value="cylinder">🥫 Cylinder</option>
-                        <option value="cone">🔻 Cone</option>
-                        <option value="torus">⭕ Torus</option>
-                        <option value="capsule">🚀 Capsule</option>
-                        <option value="pyramid">📐 Pyramid</option>
-                        <option value="prism">🔷 Prism</option>
-                        <option value="ring">⭕ Ring</option>
-                        <option value="tube">📦 Tube</option>
-                    </select>
+            <div class="collapsible-section">
+                <div class="collapsible-header" onclick="window.app.ui.toggleCollapsible('ship-appearance')">
+                    <span class="collapsible-title">Ship Appearance</span>
+                    <span class="collapsible-icon" id="ship-appearance-icon">▼</span>
                 </div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Rotation Y</div>
-                <div class="info-value">
-                    <input type="range" id="shipRotationY" min="0" max="360" value="0" class="gm-slider" onchange="window.app.ui.changeShipRotation('${ship.id}', 'y', this.value)" style="margin:0; padding:0;">
-                    <span id="shipRotationYValue">0°</span>
-                </div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Size</div>
-                <div class="info-value">
-                    <input type="range" id="shipSize" min="0.5" max="3" step="0.1" value="1" class="gm-slider" onchange="window.app.ui.changeShipSize('${ship.id}', this.value)" style="margin:0; padding:0;">
-                    <span id="shipSizeValue">1.0x</span>
+                <div class="collapsible-content" id="ship-appearance">
+                    <div class="info-item">
+                        <div class="info-label">Ship Shape</div>
+                        <div class="info-value">
+                            <select id="shipShapeSelect" class="form-select" onchange="window.app.ui.changeShipShape('${ship.id}', this.value)">
+                                <option value="tetrahedron">🔺 Tetrahedron</option>
+                                <option value="cube">⬜ Cube</option>
+                                <option value="octahedron">⬡ Octahedron</option>
+                                <option value="dodecahedron">⬢ Dodecahedron</option>
+                                <option value="icosahedron">💎 Icosahedron</option>
+                                <option value="sphere">⚪ Sphere</option>
+                                <option value="cylinder">🥫 Cylinder</option>
+                                <option value="cone">🔻 Cone</option>
+                                <option value="torus">⭕ Torus</option>
+                                <option value="capsule">🚀 Capsule</option>
+                                <option value="pyramid">📐 Pyramid</option>
+                                <option value="prism">🔷 Prism</option>
+                                <option value="ring">⭕ Ring</option>
+                                <option value="tube">📦 Tube</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Rotation Y</div>
+                        <div class="info-value">
+                            <input type="range" id="shipRotationY" min="0" max="360" value="0" class="gm-slider" onchange="window.app.ui.changeShipRotation('${ship.id}', 'y', this.value)" style="margin:0; padding:0;">
+                            <span id="shipRotationYValue">0°</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Size</div>
+                        <div class="info-value">
+                            <input type="range" id="shipSize" min="0.5" max="3" step="0.1" value="1" class="gm-slider" onchange="window.app.ui.changeShipSize('${ship.id}', this.value)" style="margin:0; padding:0;">
+                            <span id="shipSizeValue">1.0x</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -3417,15 +3425,15 @@ export class UIManager {
         const zone    = planet.surfaceZones.find(z => z.id === zoneId);
         const factions = this.app.factionManager.getAll();
         this.openGenericModal(zone.name, `
-            <div class="form-group"><label class="form-label">Zone Name</label>
-                <input type="text" id="zoneName" class="form-input" value="${zone.name}" />
-            </div>
             <div class="form-group"><label class="form-label">Controller</label>
                 <select id="zoneController" class="form-select">
                     <option value="">None</option>
                     ${factions.map(f => `<option value="${f.id}" ${zone.controller===f.id?'selected':''}>${f.symbol} ${f.name}</option>`).join('')}
                 </select></div>
-            <div class="form-group"><label class="form-label">Icon</label>
+            <div class="form-group"><label class="form-label">Zone Name</label>
+                <input type="text" id="zoneName" class="form-input" value="${zone.name}" />
+            </div>
+            <div class="form-group"><label class="form-label">Zone Icon</label>
                 <select id="zoneIcon" class="form-select">
                     <option value="🏛️">🏛️ Fortress</option>
                     <option value="🏭️">🏭️ Shield Generator</option>
@@ -4235,7 +4243,7 @@ export class UIManager {
             gmPanel:      { w:280, h:450, maxW:600 },
             surfacePanel: { w:350, h:400, maxW:700 },
             statsPanel:   { w:250, h:180, maxW:600 },
-            shipPanel:    { w:300, h:180, maxW:600 },
+            shipPanel:    { w:300, h:300, maxW:600 },
             editPlanetPanel: { w:400, h:500, maxW:700 }
         };
         Object.entries(this.panelStates).forEach(([id, state]) => {
@@ -4451,6 +4459,26 @@ export class UIManager {
         this.panelStates[id].visible = false; 
         this.applyPanelStates(); 
         this.savePanelStates(); 
+    }
+
+    toggleCollapsible(id) {
+        const content = document.getElementById(id);
+        const icon = document.getElementById(id + '-icon');
+        
+        if (!content || !icon) {
+            console.warn(`Collapsible elements not found for: ${id}`);
+            return;
+        }
+        
+        const isCollapsed = content.classList.contains('collapsed');
+        
+        if (isCollapsed) {
+            content.classList.remove('collapsed');
+            icon.classList.remove('collapsed');
+        } else {
+            content.classList.add('collapsed');
+            icon.classList.add('collapsed');
+        }
     }
 
     // ── UI Text Customization ────────────────────────────────────────────────
