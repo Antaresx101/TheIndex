@@ -72,11 +72,11 @@ body {
     box-shadow:0 5px 20px var(--color-shadow-accent);
     position:relative; z-index:100;
 }
-.header-left, .header-right { display:flex; align-items:center; gap:var(--space-md); }
-.header-center { flex:1; display:flex; justify-content:center; align-items:center; gap:var(--space-lg); }
+.header-left, .header-right { display:flex; align-items:center; gap:0.5rem; }
+.header-center { flex:1; display:flex; justify-content:center; align-items:center; gap:1rem; }
 
 .faction-selector {
-    display:flex; align-items:center; gap:var(--space-sm);
+    display:flex; align-items:center; gap:0.3rem;
     background:linear-gradient(135deg, var(--color-button-background), var(--color-secondary-background)); 
     border:2px solid var(--color-secondary-accent);
     padding:0.3rem 0.7rem; border-radius:6px;
@@ -100,14 +100,14 @@ body {
 }
 
 .faction-label {
-    font-family:var(--font-tech); font-size:.5rem; color:var(--color-secondary-accent);
+    font-family:var(--font-tech); font-size:.45rem; color:var(--color-secondary-accent);
     letter-spacing:.1rem; text-transform:uppercase; white-space:nowrap;
 }
 
 .faction-dropdown {
     background:linear-gradient(135deg, var(--color-main-background), var(--color-secondary-background)); 
     border:1px solid var(--color-secondary-accent);
-    color:var(--color-highlight-accent); font-family:var(--font-tech); font-size:.6rem; font-weight:600;
+    color:var(--color-highlight-accent); font-family:var(--font-tech); font-size:.55rem; font-weight:600;
     padding:var(--space-xs) var(--space-sm); border-radius:4px;
     min-width:100px; cursor:pointer;
     transition:all .3s ease;
@@ -132,14 +132,14 @@ body {
     padding:var(--space-xs);
 }
 
-.app-title { font-family:var(--font-display); font-size:1.5rem; font-weight:900; color:var(--color-primary-accent); letter-spacing:.3rem; text-shadow:var(--glow-gold); display:flex; align-items:center; gap:var(--space-sm); }
+.app-title { font-family:var(--font-display); font-size:1.3rem; font-weight:900; color:var(--color-primary-accent); letter-spacing:.3rem; text-shadow:var(--glow-gold); display:flex; align-items:center; gap:0.3rem; }
 .aquila-icon { font-size:1.8rem; animation:pulse 3s ease-in-out infinite; }
 
 .turn-counter { 
     background:linear-gradient(135deg, var(--color-button-background), var(--color-secondary-background)); 
     border:2px solid var(--color-secondary-accent); 
     padding:0.3rem 0.7rem; border-radius:6px; 
-    display:flex; align-items:baseline; gap:var(--space-sm); 
+    display:flex; align-items:baseline; gap:0.3rem; 
     box-shadow:0 0 10px var(--color-shadow-accent), inset 0 0 8px var(--color-primary-accent);
     position:relative; overflow:hidden;
     transition:all .3s ease;
@@ -158,16 +158,16 @@ body {
     box-shadow:0 0 20px var(--color-primary-accent), 0 0 30px var(--color-primary-accent), inset 0 0 12px var(--color-main-text);
     transform:translateY(-1px) scale(1.02);
 }
-.turn-label { font-family:var(--font-tech); font-size:0.75rem; color:var(--color-secondary-accent); letter-spacing:.2rem; }
-.turn-number { font-family:var(--font-display); font-size:1.1rem; font-weight:700; color:var(--color-highlight-accent); text-shadow:var(--glow-gold); }
+.turn-label { font-family:var(--font-tech); font-size:0.65rem; color:var(--color-secondary-accent); letter-spacing:.2rem; }
+.turn-number { font-family:var(--font-display); font-size:0.95rem; font-weight:700; color:var(--color-highlight-accent); text-shadow:var(--glow-gold); }
 
 /* ── Buttons ────────────────────────────────────────────────────────────── */
 .icon-btn, .mode-btn {
     background:linear-gradient(135deg, var(--color-button-background), var(--color-secondary-background)); 
     border:2px solid var(--color-secondary-accent); color:var(--color-highlight-accent);
     padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer;
-    font-family:var(--font-tech); font-size:.65rem; font-weight:700; transition:all .3s;
-    display:flex; align-items:center; gap:var(--space-sm);
+    font-family:var(--font-tech); font-size:.55rem; font-weight:700; transition:all .3s;
+    display:flex; align-items:center; gap:0.3rem;
     text-transform:uppercase; letter-spacing:1px;
     box-shadow:0 0 10px var(--color-shadow-accent), inset 0 0 8px var(--color-secondary-accent);
     position:relative; overflow:hidden;
@@ -205,9 +205,9 @@ body {
     background:linear-gradient(135deg, var(--color-energy-power), var(--color-warp-psychic)); 
     border:2px solid var(--color-energy-power); color:var(--color-main-text);
     padding:0.25rem 0.6rem; border-radius:6px; cursor:pointer;
-    font-family:var(--font-tech); font-size:.6rem; font-weight:700; 
+    font-family:var(--font-tech); font-size:.5rem; font-weight:700; 
     transition:all .3s; text-transform:uppercase; letter-spacing:1px;
-    display:flex; align-items:center; gap:var(--space-xs);
+    display:flex; align-items:center; gap:0.2rem;
     box-shadow:0 0 15px var(--color-energy-power), inset 0 0 10px var(--color-energy-power);
     position:relative; overflow:hidden;
     animation:feedbackPulse 3s ease-in-out infinite;
@@ -248,9 +248,9 @@ body {
     background:linear-gradient(135deg, var(--color-secondary-accent), var(--color-secondary-accent-bright)); 
     border:2px solid var(--color-combat-damage); color:var(--color-main-text);
     padding:0.25rem 0.6rem; border-radius:6px; cursor:pointer;
-    font-family:var(--font-tech); font-size:.6rem; font-weight:700; 
+    font-family:var(--font-tech); font-size:.5rem; font-weight:700; 
     transition:all .3s; text-transform:uppercase; letter-spacing:1px;
-    display:flex; align-items:center; gap:var(--space-xs);
+    display:flex; align-items:center; gap:0.2rem;
     box-shadow:0 0 15px var(--color-secondary-accent), inset 0 0 10px var(--color-secondary-accent);
     position:relative; overflow:hidden;
     animation:kofiPulse 3s ease-in-out infinite;
@@ -291,9 +291,9 @@ body {
     background:linear-gradient(135deg, var(--color-success), #087508b2); 
     border:2px solid #1a6b1a; color:var(--color-main-text);
     padding:0.25rem 0.6rem; border-radius:6px; cursor:pointer;
-    font-family:var(--font-tech); font-size:.6rem; font-weight:700; 
+    font-family:var(--font-tech); font-size:.5rem; font-weight:700; 
     transition:all .3s; text-transform:uppercase; letter-spacing:1px;
-    display:flex; align-items:center; gap:var(--space-xs);
+    display:flex; align-items:center; gap:0.2rem;
     box-shadow:0 0 15px var(--color-success), inset 0 0 10px var(--color-success);
     position:relative; overflow:hidden;
     animation:pwaInstallPulse 3s ease-in-out infinite;
@@ -391,10 +391,10 @@ button:focus {
 }
 .faction-stat-header:hover { background:var(--color-button-background); }
 
-.faction-name { font-size:1.2rem; font-weight:600; display:flex; align-items:center; gap:var(--space-sm); flex:1; margin: 0.1rem; color: inherit; }
-.faction-symbol { font-size:1.1rem; }
+.faction-name { font-size:1.0rem; font-weight:600; display:flex; align-items:center; gap:var(--space-sm); flex:1; margin: 0.1rem; color: inherit; }
+.faction-symbol { font-size:0.9rem; }
 .faction-planets { font-family:var(--font-tech); color:var(--color-secondary-accent); margin-right:.5rem; }
-.faction-expand-icon { color:var(--color-secondary-accent); font-size:1.2rem; min-width:12px; text-align:center; }
+.faction-expand-icon { color:var(--color-secondary-accent); font-size:0.5rem; min-width:12px; text-align:center; }
 
 /* Ensure faction stat headers inherit faction color */
 .faction-stat-header {
