@@ -49,6 +49,7 @@ export class UIManager {
         this.autoRotateBtn   = document.getElementById('autoRotateBtn');
         this.gmModeBtn       = document.getElementById('gmModeBtn');
         this.compassBtn       = document.getElementById('compassBtn');
+        this.helpBtn          = document.getElementById('helpBtn');
         this.currentTurnEl   = document.getElementById('currentTurn');
         this.factionDropdown = document.getElementById('factionDropdown');
 
@@ -103,6 +104,7 @@ export class UIManager {
 
         this.menuModal    = document.getElementById('menuModal');
         this.genericModal = document.getElementById('genericModal');
+        this.helpModal     = document.getElementById('helpModal');
         this.factionStatsEl = document.getElementById('factionStats');
         this.toastContainer = document.getElementById('toastContainer');
         
@@ -135,6 +137,7 @@ export class UIManager {
         if (this.autoRotateBtn) this.autoRotateBtn.addEventListener('click', () => this.toggleAutoRotation());
         if (this.gmModeBtn) this.gmModeBtn.addEventListener('click', () => this.toggleGMMode());
         if (this.compassBtn) this.compassBtn.addEventListener('click', () => this.toggleCompass());
+        if (this.helpBtn) this.helpBtn.addEventListener('click', () => this.openHelpModal());
         
         // Auto-save on page unload to prevent data loss
         window.addEventListener('beforeunload', () => {
@@ -241,7 +244,7 @@ export class UIManager {
 
         // Modal close delegation
         document.addEventListener('click', e => { if (e.target.classList.contains('modal-close')) this.closeModal(); });
-        [this.menuModal, this.genericModal].forEach(m => {
+        [this.menuModal, this.genericModal, this.helpModal].forEach(m => {
             m.addEventListener('click', e => { 
                 if (e.target === m) {
                     // Check if click-outside closing is disabled
@@ -262,13 +265,41 @@ export class UIManager {
         // Deselection broadcast
         window.addEventListener('deselectedAll', e => this.closeSidePanel());
 
-        // Escape key
+        // Escape key and other shortcuts
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
                 this.closeModal();
                 this.closeSidePanel();
                 this.deselectShip();
                 if (this.connectionEditorActive) this.toggleConnectionEditor();
+            }
+            
+            // Help shortcuts (only if not typing in input fields)
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
+                if (e.key === 'h' || e.key === 'H') {
+                    e.preventDefault();
+                    this.openHelpModal();
+                }
+                if (e.key === 'm' || e.key === 'M') {
+                    e.preventDefault();
+                    this.openMenu();
+                }
+                if (e.key === 'g' || e.key === 'G') {
+                    e.preventDefault();
+                    this.toggleGMMode();
+                }
+                if (e.key === 'c' || e.key === 'C') {
+                    e.preventDefault();
+                    this.toggleCompass();
+                }
+                if (e.key === 'f' || e.key === 'F') {
+                    e.preventDefault();
+                    this.togglePanel('statsPanel');
+                }
+                if (e.key === ' ') {
+                    e.preventDefault();
+                    this.toggleAutoRotation();
+                }
             }
         });
     }
@@ -410,10 +441,12 @@ export class UIManager {
         }
         this.menuModal.classList.remove('active');
         this.genericModal.classList.remove('active');
+        this.helpModal.classList.remove('active');
         this.genericModal.classList.remove('color-theme-modal');
         this.genericModal.classList.remove('no-backdrop');
         this.menuModal.style.display = 'none';
         this.genericModal.style.display = 'none';
+        this.helpModal.style.display = 'none';
     }
 
     showModal(title, content) {
@@ -448,6 +481,13 @@ export class UIManager {
         this.menuModal.style.display = 'flex';
         this.menuModal.classList.add('active');
         this.currentModal = this.menuModal;
+        this.currentModalOptions = { clickOutsideToClose: true };
+    }
+
+    openHelpModal() {
+        this.helpModal.style.display = 'flex';
+        this.helpModal.classList.add('active');
+        this.currentModal = this.helpModal;
         this.currentModalOptions = { clickOutsideToClose: true };
     }
 
@@ -4951,7 +4991,7 @@ export class UIManager {
             // UI labels and buttons
             uiLabels: {
                 loadingTitle: 'The INDEX',
-                loadingText: 'Initializing Galaxy…',
+                loadingText: 'Initializing Planetary System…',
                 selectPlanet: 'Select Planet or Center',
                 menu: 'MENU',
                 newCampaign: 'New Campaign',
@@ -5143,10 +5183,10 @@ export class UIManager {
         // Update all GM panel section headers
         const gmSections = [
             { selector: '#gmPanel .gm-section:nth-child(1) h4', key: 'gmSections.campaignManagement', default: 'Campaign Management' },
-            { selector: '#gmPanel .gm-section:nth-child(2) h4', key: 'gmSections.planets', default: 'Planets' },
+            { selector: '#gmPanel .gm-section:nth-child(2) h4', key: 'gmSections.planets', default: 'Events' },
             { selector: '#gmPanel .gm-section:nth-child(3) h4', key: 'gmSections.connections', default: 'Connections' },
             { selector: '#gmPanel .gm-section:nth-child(4) h4', key: 'gmSections.fleets', default: 'Fleets' },
-            { selector: '#gmPanel .gm-section:nth-child(5) h4', key: 'gmSections.events', default: 'Events' },
+            { selector: '#gmPanel .gm-section:nth-child(5) h4', key: 'gmSections.events', default: 'Planets' },
             { selector: '#gmPanel .gm-section:nth-child(6) h4', key: 'gmSections.resourcesValues', default: 'Resources & Values' },
             { selector: '#gmPanel .gm-section:nth-child(7) h4', key: 'gmSections.galaxy', default: 'Galaxy' },
             { selector: '#gmPanel .gm-section:nth-child(8) h4', key: 'gmSections.interfaceDisplay', default: 'Interface & Display' }
@@ -5175,7 +5215,7 @@ export class UIManager {
 
         const loadingText = document.querySelector('.loading-text');
         if (loadingText) {
-            loadingText.textContent = this.getText('uiLabels.loadingText', 'Initializing Galaxy…');
+            loadingText.textContent = this.getText('uiLabels.loadingText', 'Initializing Planetary System…');
         }
     }
 

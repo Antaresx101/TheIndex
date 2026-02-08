@@ -53,11 +53,12 @@
             <div class="header-right">
                 <button id="ordersBtn" class="icon-btn" title="Galactic Orders">Galactic Order</button>
                 <button id="reinforcementsBtn" class="icon-btn" title="Reinforcements">Reinforcements</button>
-                <button id="factionStatsBtn" class="icon-btn" title="Toggle Faction Standings">Factions Standings</button>
+                <button id="factionStatsBtn" class="icon-btn" title="Toggle Faction Standings">Faction Standings</button>
                 <button id="editFactionBtn" class="icon-btn" title="Edit Active Faction">Edit Faction</button>
                 <button id="compassBtn" class="icon-btn" title="Toggle Compass">Compass</button>
                 <button id="autoRotateBtn" class="mode-btn" title="Toggle Auto Rotation"><span class="mode-text">Rotation: AUTO</span></button>
                 <button id="gmModeBtn" class="mode-btn" title="Toggle GM Mode"><span class="mode-icon">👁</span><span class="mode-text">PLAYER</span></button>
+                <button id="helpBtn" class="icon-btn" title="Help & Controls">?</button>
                 <button id="feedbackBtn" class="feedback-btn" title="Send Feedback" onclick="window.open('https://XXX', '_blank')">
                     <span class="feedback-icon">💬</span>
                     <span class="feedback-text">FEEDBACK</span>
@@ -218,6 +219,179 @@
                 <button id="importCampaignBtn" class="menu-item-btn"><span class="menu-item-icon">▼</span> Import Campaign</button>
                 <button id="newCampaignBtn"    class="menu-item-btn"><span class="menu-item-icon">⊕</span> New Campaign</button>
                 <button id="menuColorThemeBtn" class="menu-item-btn"><span class="menu-item-icon">🎨</span> Color Theme</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content help-modal">
+            <div class="modal-header">
+                <h2>HELP & CONTROLS</h2>
+                <button class="close-btn modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>⌨️ KEYBOARD SHORTCUTS</h3>
+                    <div class="help-grid">
+                        <div class="help-item">
+                            <strong>H:</strong> Open help (this panel)
+                        </div>
+                        <div class="help-item">
+                            <strong>ESC:</strong> Close current panel or modal
+                        </div>
+                        <div class="help-item">
+                            <strong>Space:</strong> Toggle auto-rotation
+                        </div>
+                        <div class="help-item">
+                            <strong>G:</strong> Toggle GM Mode
+                        </div>
+                        <div class="help-item">
+                            <strong>C:</strong> Toggle compass
+                        </div>
+                        <div class="help-item">
+                            <strong>F:</strong> Toggle faction standings
+                        </div>
+                        <div class="help-item">
+                            <strong>M:</strong> Open menu
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>🎮 BASIC CONTROLS</h3>
+                    <div class="help-grid">
+                        <div class="help-item">
+                            <strong>Left Click:</strong> Select planets, planetary system center and UI elements
+                        </div>
+                        <div class="help-item">
+                            <strong>Right Click + Drag:</strong> Rotate camera view
+                        </div>
+                        <div class="help-item">
+                            <strong>Mouse Wheel:</strong> Zoom in/out of galaxy view
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>🌍 TOP MENU</h3>
+                    <div class="help-grid">
+                        <div class="help-item">
+                            <strong>Galactic Order:</strong> View ongoing Galactic Order quest and progress
+                        </div>
+                        <div class="help-item">
+                            <strong>Reinforcements:</strong> View available Requisitions and Stratagems
+                        </div>
+                        <div class="help-item">
+                            <strong>Faction Standings:</strong> View factions and resources
+                        </div>
+                        <div class="help-item">
+                            <strong>Edit Faction:</strong> Edit information about your faction
+                        </div>
+                        <div class="help-item">
+                            <strong>Compass:</strong> Toggle directional indicator
+                        </div>
+                        <div class="help-item">
+                            <strong>Rotation:</strong> Toggle automatic rotation
+                        </div>
+                        <div class="help-item">
+                            <strong>Player / GM Mode:</strong> Switch between Player and Game Master modes
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>⚓ FLEET MANAGEMENT</h3>
+                    <div class="help-grid">
+                        <div class="help-item">
+                            <strong>Select Fleet:</strong> Click on planet and select a fleet in orbit
+                        </div>
+                        <div class="help-item">
+                            <strong>Move Fleet:</strong> Select fleet, then select the destination planet
+                        </div>
+                        <div class="help-item">
+                            <strong>Follow Fleet:</strong> Move camera to planet the fleet is at
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>👁️ GAME MASTER CONTROLS</h3>
+                    <div class="help-grid">
+                        <div class="help-item">
+                            <strong>Campaign Management:</strong> Create/edit/delete orders, advance/rewind turns, manage factions
+                        </div>
+                        <div class="help-item">
+                            <strong>Events:</strong> Add special events with start in, end in, description
+                        </div>
+                        <div class="help-item">
+                            <strong>Resources & Values:</strong> Auto-distribution, manage resource types, planet values
+                        </div>
+                        <div class="help-item">
+                            <strong>Fleets Editor:</strong> Add new fleets, manage existing fleets
+                        </div>
+                        <div class="help-item">
+                            <strong>Planets Editor:</strong> Add new planets, delete selected planets
+                        </div>
+                        <div class="help-item">
+                            <strong>Connections Editor:</strong> Edit planet connections and routes
+                        </div>
+                        <div class="help-item">
+                            <strong>Galaxy:</strong> Edit galaxy center, crusade information
+                        </div>
+                        <div class="help-item">
+                            <strong>Interface & Display:</strong> Customize UI text, color themes, settings
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>🎨 VISUAL ELEMENTS</h3>
+                    <div class="help-grid">
+                        <div class="help-item">
+                            <strong>Planet Colors:</strong> Different planet types have unique colors
+                        </div>
+                        <div class="help-item">
+                            <strong>Faction Symbols:</strong> Planets show owner's faction symbol
+                        </div>
+                        <div class="help-item">
+                            <strong>Battle Rings:</strong> Red/orange rings indicate ongoing battles
+                        </div>
+                        <div class="help-item">
+                            <strong>Connection Lines:</strong> Shows routes between planets
+                        </div>
+                        <div class="help-item">
+                            <strong>Event Rings:</strong> Colored rings show active events
+                        </div>
+                        <div class="help-item">
+                            <strong>Sector Labels:</strong> Galaxy sector names and boundaries
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3>💾 MAIN MENU</h3>
+                    <div class="help-grid">
+                        <div class="help-item">
+                            <strong>Auto-Save:</strong> Campaign saves automatically every 30 seconds
+                        </div>
+                        <div class="help-item">
+                            <strong>Manual Save:</strong> Use Menu → Save Campaign
+                        </div>
+                        <div class="help-item">
+                            <strong>Export Campaign:</strong> Download campaign as JSON file
+                        </div>
+                        <div class="help-item">
+                            <strong>Import Campaign:</strong> Load campaign from JSON file
+                        </div>
+                        <div class="help-item">
+                            <strong>New Campaign:</strong> Start fresh with new random galaxy
+                        </div>
+                        <div class="help-item">
+                            <strong>Color Theme:</strong> Customize UI colors
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
